@@ -4,34 +4,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
 public class PassengerThread extends Thread {
-
+CountDownLatch countDownLatch;
     Semaphore semaphore;
     int number;
 
 
-
-
-
-
-
-
-    public Semaphore getSemaphore() {
-        return semaphore;
-    }
-
-    public void setSemaphore(Semaphore semaphore) {
-        this.semaphore = semaphore;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public PassengerThread( Semaphore semaphore, int number) {
+    public PassengerThread(CountDownLatch countDownLatch, Semaphore semaphore, int number) {
+        this.countDownLatch = countDownLatch;
         this.semaphore = semaphore;
         this.number = number;
     }
@@ -41,6 +20,10 @@ public class PassengerThread extends Thread {
         try {
             semaphore.acquire();
             System.out.println("a passenger "+number+" bought a ticket to Osh");
+sleep(1000);
+            System.out.println(" passenger "+number+" got on the bus");
+            countDownLatch.countDown();
+
             semaphore.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
